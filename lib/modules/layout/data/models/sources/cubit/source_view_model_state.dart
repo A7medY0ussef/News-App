@@ -1,6 +1,5 @@
 part of 'source_view_model_cubit.dart';
 
-@immutable
 sealed class SourceViewModelState {}
 
 final class SourceViewModelInitial extends SourceViewModelState {}

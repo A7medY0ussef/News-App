@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:news/modules/layout/data/models/category/category_model.dart';
 import 'package:news/modules/layout/view/screens/articles_screen.dart';
 import 'package:news/modules/layout/view/screens/category_screen.dart';
-
-import '../widgets/drawer/drawer_widget.dart';
+import 'package:news/modules/layout/view/screens/search_screen.dart';
+import 'package:news/modules/layout/view/widgets/drawer/drawer_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,6 +12,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  CategoryModel? selectedCategory;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -22,29 +24,33 @@ class _HomeScreenState extends State<HomeScreen> {
           style: theme.textTheme.headlineMedium,
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Icon(Icons.search_outlined, color: theme.splashColor),
-          ),
+          if (selectedCategory != null)
+            IconButton(
+              onPressed: openSearch,
+              icon: Icon(Icons.search_outlined, color: theme.splashColor),
+            ),
         ],
       ),
-      drawer: DrawerWidget(onTap: () => onTapDrawer()),
+      drawer: DrawerWidget(onTap: onTapDrawer),
       body: selectedCategory == null
           ? CategoryScreen(onCategoryItemClick: onCategoryItemClick)
           : ArticlesScreen(categoryModel: selectedCategory!),
     );
   }
 
-  CategoryModel? selectedCategory;
+  void openSearch() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const SearchScreen()),
+    );
+  }
 
   void onCategoryItemClick(CategoryModel newCategory) {
-    selectedCategory = newCategory;
-    setState(() {});
+    setState(() => selectedCategory = newCategory);
   }
 
   void onTapDrawer() {
-    selectedCategory = null;
     Navigator.pop(context);
-    setState(() {});
+    setState(() => selectedCategory = null);
   }
 }

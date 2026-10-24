@@ -1,6 +1,5 @@
 part of 'news_view_model_cubit.dart';
 
-@immutable
 sealed class NewsViewModelState {}
 
 final class NewsViewModelInitial extends NewsViewModelState {}

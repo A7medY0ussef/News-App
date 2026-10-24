@@ -23,7 +23,7 @@ class DioManager {
           ),
         );
 
-  static Future<SourceResponse> getSources(String categoryId) async {
+  Future<SourceResponse> getSources(String categoryId) async {
     try {
       var response = await dio.get(
         ApiEndPoint.sourceApi,
@@ -35,11 +35,23 @@ class DioManager {
     }
   }
 
-  static Future<NewsResponse> getNewsBySourceId(String sourceId) async {
+  Future<NewsResponse> getNewsBySourceId(String sourceId) async {
     try {
       var response = await dio.get(
         ApiEndPoint.newsApi,
         queryParameters: {'sources': sourceId},
+      );
+      return NewsResponse.fromJson(response.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<NewsResponse> searchNews(String query) async {
+    try {
+      var response = await dio.get(
+        ApiEndPoint.newsApi,
+        queryParameters: {'q': query},
       );
       return NewsResponse.fromJson(response.data);
     } catch (e) {

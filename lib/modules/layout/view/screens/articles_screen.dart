@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news/core/di/di.dart';
 import 'package:news/modules/layout/data/models/sources/cubit/source_view_model_cubit.dart';
 import 'package:news/modules/layout/view/widgets/main_error_widget.dart';
 import 'package:news/modules/layout/view/widgets/main_loading_widget.dart';
@@ -23,7 +24,9 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
     super.initState();
   }
 
-  SourceViewModelCubit viewModel = SourceViewModelCubit();
+  SourceViewModelCubit viewModel = SourceViewModelCubit(
+    sourceRepository: injectSourceRepository(),
+  );
 
   @override
   Widget build(BuildContext context) {
